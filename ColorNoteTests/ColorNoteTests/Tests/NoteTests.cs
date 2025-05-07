@@ -24,7 +24,7 @@ namespace ColorNoteTests.Tests
 			_mainPage.OpenNote();
 			_notePage.CreateNote(noteTitle, noteContent);
 
-			var notes = _notePage.WaitForLastCreatedNote();
+			var notes = _mainPage.WaitForCreatedNote();
 
 			Assert.Multiple(() =>
 			{
@@ -39,13 +39,13 @@ namespace ColorNoteTests.Tests
 			string editedTitle = "EDITED-" + NoteHelpers.GenerateRandomTitle();
 			string editedContent = "EDITED CONTENT";
 
-			_notePage.WaitForLastCreatedNote()
+			_mainPage.WaitForCreatedNote()
 			   .Last()
 			   .Click();
 
 			_notePage.EditNote(editedTitle, editedContent);
 
-			var editedNote = _notePage.WaitForLastCreatedNote().Last();
+			var editedNote = _mainPage.WaitForCreatedNote().Last();
 
 			Assert.Multiple(() =>
 			{
@@ -63,7 +63,7 @@ namespace ColorNoteTests.Tests
 		{
 			_notePage.DeleteNote();
 
-			var notesAfterDeletion = _notePage.Notes;
+			var notesAfterDeletion = _mainPage.Notes;
 
 			Assert.That(notesAfterDeletion, Is.Empty);
 		}

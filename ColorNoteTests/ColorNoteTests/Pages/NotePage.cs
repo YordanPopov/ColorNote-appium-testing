@@ -8,57 +8,43 @@ namespace ColorNoteTests.Pages
 {
 	public class NotePage : BasePage
 	{
-		public NotePage(AndroidDriver driver) : base(driver) { }
+		public NoteHeaderComponents Header { get; }
 
-		private By titleField = MobileBy.Id("com.socialnmobile.dictapps.notepad.color.note:id/edit_title");
+		public NotePage(AndroidDriver driver) : base(driver)
+		{
+			Header = new NoteHeaderComponents(driver);
+		}
 
 		private By textField = MobileBy.Id("com.socialnmobile.dictapps.notepad.color.note:id/edit_note");
-
-		private By doneButton = MobileBy.Id("com.socialnmobile.dictapps.notepad.color.note:id/back_btn");
-
-		private By noteLocator = MobileBy.Id("com.socialnmobile.dictapps.notepad.color.note:id/title");
-
-		private By EditButton = MobileBy.Id("com.socialnmobile.dictapps.notepad.color.note:id/edit_btn");
-
-		private By menuButton = MobileBy.Id("com.socialnmobile.dictapps.notepad.color.note:id/menu_btn");
-
-		private By deleteButton = MobileBy.AndroidUIAutomator("new UiSelector().text(\"Delete\")");
-
-		private By OkayConfirmButton = MobileBy.Id("android:id/button1");
-
-		public ReadOnlyCollection<AppiumElement> Notes => _driver.FindElements(MobileBy.Id("com.socialnmobile.dictapps.notepad.color.note:id/title"));
 
 		public AppiumElement ViewNote => _driver.FindElement(MobileBy.Id("com.socialnmobile.dictapps.notepad.color.note:id/view_note"));
 
 		public void CreateNote(string title, string content)
 		{
-			EnterText(titleField, title);
-			EnterText(textField, content);
-			ClickElement(doneButton);
-			ClickElement(doneButton);
+			Header.EnterTitle(title);
+			_driver.FindElement(textField).SendKeys(content);
+			Header.TapDone();
+			Header.TapDone();
 		}
 
 		public void EditNote(string newTitle, string newContent)
 		{
-			ClickElement(EditButton);
+			Header.TapEdit();
 
-			EnterText(titleField, newTitle);
-			EnterText(textField, newContent);
+			Header.EnterTitle(newTitle);
+			var content = _driver.FindElement(textField);
+			content.Clear();
+			content.SendKeys(newContent);
 
-			ClickElement(doneButton);
-			ClickElement(doneButton);
+			Header.TapDone();
+			Header.TapDone();	
 		}
 
 		public void DeleteNote()
 		{
-			ClickElement(menuButton);
-			ClickElement(deleteButton);
-			ClickElement(OkayConfirmButton);
-		}
-
-		public ReadOnlyCollection<IWebElement> WaitForLastCreatedNote()
-		{
-			return _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(noteLocator));
+			Header.OpenMenu();
+			Header.TapDelete();
+			Header.ChooseOkay();
 		}
 	}
 }

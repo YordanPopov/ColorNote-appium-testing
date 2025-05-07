@@ -16,6 +16,10 @@ namespace ColorNoteTests.Pages
 
 		private By checklistButton = MobileBy.AndroidUIAutomator("new UiSelector().text(\"Checklist\")");
 
+		private By noteLocator = MobileBy.Id("com.socialnmobile.dictapps.notepad.color.note:id/title");
+
+		public ReadOnlyCollection<AppiumElement> Notes => _driver.FindElements(MobileBy.Id("com.socialnmobile.dictapps.notepad.color.note:id/title"));
+
 		public void OpenNote()
 		{
 			ClickElement(addButton);
@@ -26,6 +30,11 @@ namespace ColorNoteTests.Pages
 		{
 			ClickElement(addButton);
 			ClickElement(checklistButton);
+		}
+
+		public ReadOnlyCollection<IWebElement> WaitForCreatedNote()
+		{
+			return _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(noteLocator));
 		}
 	}
 }
