@@ -21,8 +21,6 @@ namespace ColorNoteTests.Pages
 
 		private By okayBtn = MobileBy.Id("android:id/button1");
 
-		private By checklistItemsLocator = MobileBy.XPath("(//android.widget.ImageView[@resource-id=\"com.socialnmobile.dictapps.notepad.color.note:id/icon_drag\"])");
-
 		public void CreateChecklist(string title, string[] items)
 		{
 			Header.EnterTitle(title);
