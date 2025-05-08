@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Bogus;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Android;
 using SeleniumExtras.WaitHelpers;
@@ -8,9 +9,11 @@ namespace ColorNoteTests.Pages
 {
 	public class MainPage : BasePage
 	{
-		public MainPage(AndroidDriver driver) : base(driver) { }
-
-		private By addButton = MobileBy.Id("com.socialnmobile.dictapps.notepad.color.note:id/main_btn1");
+		public MainPageHeaderComponents Header { get; }
+		public MainPage(AndroidDriver driver) : base(driver)
+		{
+			Header = new MainPageHeaderComponents(driver);
+		}
 
 		private By noteButton = MobileBy.AndroidUIAutomator("new UiSelector().text(\"Text\")");
 
@@ -22,13 +25,13 @@ namespace ColorNoteTests.Pages
 
 		public void OpenNote()
 		{
-			ClickElement(addButton);
+			Header.ClickAddButton();
 			ClickElement(noteButton);
 		}
 
 		public void OpenChecklist()
 		{
-			ClickElement(addButton);
+			Header.ClickAddButton();
 			ClickElement(checklistButton);
 		}
 
