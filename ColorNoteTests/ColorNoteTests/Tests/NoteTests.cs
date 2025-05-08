@@ -8,6 +8,8 @@ namespace ColorNoteTests.Tests
 	{
 		private MainPage _mainPage;
 		private NotePage _notePage;
+		private string lastCreatedNoteTitle;
+		private string lastCreatedNoteContent;
 
 		[OneTimeSetUp]
 		public void PageInitialization()
@@ -18,26 +20,26 @@ namespace ColorNoteTests.Tests
 		[Test, Order(1)]
 		public void CreateNoteSuccessfully()
 		{
-			string noteTitle = NoteHelpers.GenerateRandomTitle();
-			string noteContent = NoteHelpers.GenerateRandomContent();
+			lastCreatedNoteTitle = NoteHelpers.GenerateRandomTitle();
+			lastCreatedNoteContent = NoteHelpers.GenerateRandomContent();
 
 			_mainPage.OpenNote();
-			_notePage.CreateNote(noteTitle, noteContent);
+			_notePage.CreateNote(lastCreatedNoteTitle, lastCreatedNoteContent);
 
 			var notes = _mainPage.WaitForCreatedNote();
 
 			Assert.Multiple(() =>
 			{
 				Assert.That(notes, Is.Not.Empty, "No notes found!");
-				Assert.That(notes.Last().Text, Is.EqualTo(noteTitle));
+				Assert.That(notes.Last().Text, Is.EqualTo(lastCreatedNoteTitle));
 			});
 		}
 
 		[Test, Order(2)]
 		public void EditNoteSuccessfully()
 		{
-			string editedTitle = "EDITED-" + NoteHelpers.GenerateRandomTitle();
-			string editedContent = "EDITED CONTENT";
+			string editedTitle = "EDITED-" + lastCreatedNoteTitle;
+			string editedContent = "EDITED-" + lastCreatedNoteContent;
 
 			_mainPage.WaitForCreatedNote()
 			   .Last()

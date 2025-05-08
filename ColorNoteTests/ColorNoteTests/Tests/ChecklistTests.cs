@@ -47,7 +47,7 @@ namespace ColorNoteTests.Tests
 		}
 
 		[Test, Order(2)]
-		public void EditChecklistSuccessfully()
+		public void EditChecklistTitleSuccessfully()
 		{
 			string editedTitle = "EDITED-" + lastCreatedChecklistTitle;
 
