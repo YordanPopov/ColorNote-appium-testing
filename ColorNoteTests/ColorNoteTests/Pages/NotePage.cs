@@ -22,7 +22,8 @@ namespace ColorNoteTests.Pages
 		public void CreateNote(string title, string content)
 		{
 			Header.EnterTitle(title);
-			_driver.FindElement(textField).SendKeys(content);
+			EnterText(textField, content);
+
 			Header.TapDone();
 			Header.TapDone();
 		}
